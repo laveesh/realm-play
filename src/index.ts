@@ -1,8 +1,28 @@
 import * as express from 'express';
 import * as Realm from 'realm';
+import * as os from 'os';
+
+let ip: String;
+const ifaces = os.networkInterfaces();
+Object.keys(ifaces).forEach(function(ifname) {
+  var alias = 0;
+
+  ifaces[ifname].forEach(function(iface) {
+    if ('IPv4' !== iface.family || iface.internal !== false) {
+      return;
+    }
+
+    if (alias >= 1) {
+      ip = iface.address;
+    } else {
+      ip = iface.address;
+    }
+    ++alias;
+  });
+});
 
 const app = express();
-const port = 3500;
+const port = process.env.PORT || 3500;
 
 const CarSchema = {
   name: 'Car',
@@ -58,4 +78,6 @@ Realm.open({ schema: [CarSchema, PersonSchema] })
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () =>
+  console.log(`Example app listening on address http://${ip}:${port}`)
+);

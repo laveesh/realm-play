@@ -3,8 +3,22 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "npm start",
+    "ext": "ts"
+  },
   "scripts": {
     "start": "ts-node src/index.ts",
+    "start:watch": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,6 +26,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "nodemon": "^1.18.11",
+    "os": "^0.1.1",
     "realm": "^2.26.1",
     "ts-node": "^8.1.0",
     "typescript": "^3.4.5"
