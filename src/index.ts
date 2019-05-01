@@ -56,6 +56,17 @@ Realm.open({ schema: [CarSchema, PersonSchema] })
     console.log(error);
   });
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.get('/', (req, res) => {
+  res.send('Connected!')
+});
+
+app.get('/car-data', (req, res) => {
+  Realm.open({ schema: [CarSchema] }).then(realm => {
+    res.status(200).json(realm.objects('Car'))
+  }).catch(err => res.status(500).json({
+    message: err ? err.message : 'error',
+    error: true
+  }))
+})
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

@@ -1,0 +1,6 @@
+{
+    "scripts": "build/**/*.js",
+    "assets": [
+        "realm.node"
+    ]
+}
