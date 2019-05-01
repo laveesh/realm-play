@@ -76,7 +76,24 @@ Realm.open({ schema: [CarSchema, PersonSchema] })
     console.log(error);
   });
 
+let milesCount = 1999;
+
 app.get('/', (req, res) => res.send('Hello World!'));
+
+app.get('/addCarSample', (req, res) => {
+  Realm.open({ schema: [CarSchema] }).then(realm => {
+    realm.write(() => {
+      ++milesCount;
+      res.send(
+        realm.create('Car', {
+          make: 'Suzuki',
+          model: 'ciaz',
+          miles: milesCount
+        })
+      );
+    });
+  });
+});
 
 app.listen(port, () =>
   console.log(`Example app listening on address http://${ip}:${port}`)
